@@ -32,7 +32,8 @@
     "next-compose-plugins": "^2.2.1",
     "next-images": "^1.8.5",
     "postcss": "^8.4.31",
-    "cssnano": "^6.0.3"
+    "cssnano": "^6.0.3",
+    "autoprefixer": "^10.4.16"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
