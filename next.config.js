@@ -6,6 +6,7 @@ const nextConfig = {
   },
   images: {
     domains: ['api.twincitiescoverage.com'],
+    unoptimized: true, // For Cloudflare Pages compatibility
   },
   env: {
     NEXT_PUBLIC_API_URL: 'https://api.twincitiescoverage.com',
@@ -23,6 +24,11 @@ const nextConfig = {
         permanent: true,
       }
     ];
+  },
+  // Cloudflare specific optimizations
+  swcMinify: true,
+  experimental: {
+    optimizeCss: true,
   },
 };
 

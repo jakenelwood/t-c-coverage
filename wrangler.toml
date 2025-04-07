@@ -1,0 +1,22 @@
+name = "twincitiescoverage"
+main = "worker/index.js"
+compatibility_date = "2023-05-18"
+
+# Configure route for your workers
+routes = [
+  { pattern = "api.twincitiescoverage.com", custom_domain = true }
+]
+
+[site]
+bucket = ".next/static" # Next.js static files
+entry-point = "."
+
+[build]
+command = "npm run build"
+output_dir = ".next"
+
+# Configure environment variables
+[vars]
+ENVIRONMENT = "production"
+
+# For secrets, use `wrangler secret put SECRET_NAME` to add them 

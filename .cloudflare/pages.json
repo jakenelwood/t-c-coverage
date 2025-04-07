@@ -1,0 +1,14 @@
+{
+  "build": {
+    "command": "npm run build",
+    "output_directory": ".next",
+    "root_directory": "/"
+  },
+  "routes": [
+    { "pattern": "/api/*", "service": "twincitiescoverage-api" },
+    { "pattern": "/*", "static": true }
+  ],
+  "environment_variables": {
+    "NEXT_PUBLIC_API_URL": "https://api.twincitiescoverage.com"
+  }
+} 

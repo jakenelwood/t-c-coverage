@@ -1,6 +1,6 @@
 # Twin Cities Coverage Insurance Quote Generator
 
-A Next.js and FastAPI application for generating insurance quotes and managing agent workflows.
+A Next.js application for generating insurance quotes and managing agent workflows, deployed on Cloudflare Pages with Cloudflare Workers handling API endpoints.
 
 ## Features
 
@@ -10,113 +10,107 @@ A Next.js and FastAPI application for generating insurance quotes and managing a
 - Document generation (DOCX and PDF)
 - Secure data storage with LanceDB
 
+## Architecture
+
+- **Frontend**: Next.js deployed on Cloudflare Pages
+- **API Layer**: Cloudflare Workers
+- **Backend Services**: Node.js services running on Hetzner AX52 server
+- **Database**: LanceDB for document storage
+
 ## Prerequisites
 
 - Node.js 16.x or later
-- Python 3.9 or later
-- Docker and Docker Compose
+- Wrangler CLI (`npm install -g wrangler`)
+- Cloudflare account
 - Git
 
-## Setup
+## Local Development Setup
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/your-org/twincitiescoverage.git
-cd twincitiescoverage
+git clone https://github.com/jakenelwood/t-c-coverage.git
+cd t-c-coverage
 ```
 
-2. Install frontend dependencies:
+2. Install dependencies:
 ```bash
 npm install
 ```
 
 3. Set up environment variables:
 ```bash
-cp .env.example .env
-# Edit .env with your configuration
+cp .env.example .env.local
+# Edit .env.local with your configuration
 ```
 
-4. Start the development servers:
+4. Start the development server:
 ```bash
-# Start the backend
-docker-compose up -d
-
-# Start the frontend
 npm run dev
 ```
 
 The application will be available at:
 - Frontend: http://localhost:3000
-- Backend API: http://localhost:8000
 
 ## Project Structure
 
 ```
 .
-├── app/                    # Backend FastAPI application
-│   ├── main.py            # Main FastAPI application
-│   ├── generators/        # Document generation modules
-│   └── ...
+├── .cloudflare/           # Cloudflare Pages configuration
+├── worker/                # Cloudflare Worker for API endpoints
 ├── pages/                 # Next.js pages
 │   ├── agent-portal.js    # Agent portal page
-│   ├── login.js          # Login page
+│   ├── login.js           # Login page
 │   └── ...
-├── templates/             # Word document templates
-├── output/               # Generated documents
+├── lib/                   # Shared libraries
+├── components/            # React components
 └── ...
-```
-
-## Usage
-
-### Agent Portal
-
-1. Navigate to http://localhost:3000/login
-2. Log in with your agent credentials
-3. Access the quote request generator
-4. Fill out the form with client information
-5. Generate and download quote documents
-
-### API Endpoints
-
-- POST /token - Get authentication token
-- POST /quotes/ - Create a new quote request
-- GET /quotes/ - Get quote history
-
-## Security
-
-- JWT-based authentication
-- Secure password hashing with bcrypt
-- Environment variable configuration
-- CORS protection
-- Input validation
-
-## Development
-
-### Backend Development
-
-```bash
-# Start the backend in development mode
-docker-compose up -d
-```
-
-### Frontend Development
-
-```bash
-# Start the frontend in development mode
-npm run dev
 ```
 
 ## Deployment
 
-1. Build the Docker images:
+### Deploy to Cloudflare Pages
+
+1. Log in to Cloudflare:
 ```bash
-docker-compose build
+wrangler login
 ```
 
-2. Start the services:
+2. Build the application:
 ```bash
-docker-compose up -d
+npm run build
 ```
+
+3. Deploy to Cloudflare Pages:
+```bash
+npm run deploy
+```
+
+### Deploy the API Worker
+
+1. Deploy the worker:
+```bash
+npm run deploy:worker
+```
+
+## Configuration
+
+### Cloudflare Pages
+
+The Cloudflare Pages project is configured using the `.cloudflare/pages.json` file and `wrangler.toml`.
+
+### Environment Variables
+
+The following environment variables should be set in the Cloudflare Pages dashboard:
+
+- `NEXT_PUBLIC_API_URL`: URL of the API (e.g., https://api.twincitiescoverage.com)
+- `NEXTAUTH_URL`: URL of the authentication callback (your site URL)
+- `NEXTAUTH_SECRET`: Secret key for NextAuth
+
+## Security
+
+- JWT-based authentication
+- CORS protection
+- Input validation
 
 ## License
 
