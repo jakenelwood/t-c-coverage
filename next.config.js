@@ -30,6 +30,8 @@ const nextConfig = {
   experimental: {
     optimizeCss: true,
   },
+  // Make sure output is compatible with Cloudflare Pages
+  output: process.env.CF_PAGES === '1' ? 'export' : undefined,
 };
 
 module.exports = nextConfig;
