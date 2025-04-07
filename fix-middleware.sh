@@ -1,13 +1,18 @@
 #!/bin/bash
 
+echo "Running Node.js cleanup script to empty API directory..."
+node empty-middleware-api-dir.js
+
 echo "Checking directory structure..."
-ls -la
+ls -la pages/
+ls -la pages/api/ || echo "API directory doesn't exist yet"
 
-echo "Looking for middleware files..."
-find . -name "_middleware.js" -o -name "_middleware.ts"
+echo "Looking for middleware files (any pattern)..."
+find . -path "*/pages/api/*middleware*"
+find . -path "*/pages/*middleware*"
 
-echo "Forcibly removing nested middleware files..."
-find ./pages -name "_middleware.js" -o -name "_middleware.ts" -delete
+echo "Forcibly removing nested middleware files (any pattern)..."
+find ./pages -name "*middleware*" -type f -delete
 
 echo "Creating a root middleware.js file..."
 cat > middleware.js << 'EOL'
@@ -22,6 +27,7 @@ export const config = {
 EOL
 
 # Make sure the file exists
+echo "Root middleware.js content:"
 cat middleware.js
 
 echo "Middleware check and fix completed!" 
