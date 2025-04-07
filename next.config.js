@@ -20,6 +20,15 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true
   },
+  // API configuration
+  async rewrites() {
+    return [
+      {
+        source: '/api/:path*',
+        destination: 'http://localhost:8000/api/:path*' // FastAPI server
+      }
+    ];
+  },
   // Optional export configuration for static exports
   exportPathMap: async function() {
     return {

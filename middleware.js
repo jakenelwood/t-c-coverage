@@ -1,11 +1,22 @@
 // This file intentionally left minimal for static export compatibility
-// API routes are handled by Cloudflare Workers, not Next.js middleware
-export function middleware() {
-  // This is a placeholder only
-  // For static exports, middleware is not used
-  return;
+// All API routes are handled by FastAPI, not Next.js middleware
+import { NextResponse } from "next/server";
+
+export function middleware(request) {
+  // If requesting API routes, pass through to FastAPI server
+  if (request.nextUrl.pathname.startsWith('/api/')) {
+    // For static export, API routes should be rewritten to FastAPI
+    // This is handled in next.config.js with rewrites
+    return NextResponse.next();
+  }
+  
+  // For all other routes, just continue
+  return NextResponse.next();
 }
 
 export const config = {
-  matcher: [],
+  matcher: [
+    // Match API routes for FastAPI redirection
+    '/api/:path*',
+  ],
 }; 

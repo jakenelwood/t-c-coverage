@@ -1,5 +1,5 @@
 /*eslint-disable*/
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { makeStyles } from "@mui/styles";
 import {
@@ -29,6 +29,8 @@ import HeaderLinks from "/components/Header/HeaderLinks.js";
 import Footer from "/components/Footer/Footer.js";
 import GridContainer from "/components/Grid/GridContainer.js";
 import GridItem from "/components/Grid/GridItem.js";
+import Layout from "../components/Layout";
+import { fetchAPI, isAuthenticated } from "../utils/api";
 
 import styles from "/styles/jss/nextjs-material-kit-pro/pages/loginPageStyle.js";
 
@@ -231,21 +233,11 @@ export default function AgentPortal() {
     setError("");
 
     try {
-      const token = localStorage.getItem("token");
-      const response = await fetch("/api/quotes", {
+      const data = await fetchAPI("quotes", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
         body: JSON.stringify(formData),
       });
 
-      if (!response.ok) {
-        throw new Error("Failed to submit quote request");
-      }
-
-      const data = await response.json();
       router.push(`/quotes/${data.id}`);
     } catch (err) {
       setError(err.message);
@@ -253,6 +245,12 @@ export default function AgentPortal() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (!isAuthenticated()) {
+      router.push("/login");
+    }
+  }, []);
 
   const renderStepContent = (step) => {
     switch (step) {

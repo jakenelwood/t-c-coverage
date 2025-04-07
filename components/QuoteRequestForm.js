@@ -12,11 +12,12 @@ import {
 } from "@mui/material";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
-import PersonalInfoStep from "./form-steps/PersonalInfoStep";
-import AutoInfoStep from "./form-steps/AutoInfoStep";
-import HomeInfoStep from "./form-steps/HomeInfoStep";
-import SpecialtyInfoStep from "./form-steps/SpecialtyInfoStep";
-import ReviewStep from "./form-steps/ReviewStep";
+import PersonalInfoStep from "./steps/PersonalInfoStep";
+import AutoInfoStep from "./steps/AutoInfoStep";
+import HomeInfoStep from "./steps/HomeInfoStep";
+import SpecialtyInfoStep from "./steps/SpecialtyInfoStep";
+import ReviewStep from "./steps/ReviewStep";
+import { fetchAPI } from "../utils/api";
 
 const steps = [
   "Personal Information",
@@ -120,20 +121,12 @@ const QuoteRequestForm = () => {
     setSubmitError(null);
 
     try {
-      // Here we'll make the API call to submit the quote request
-      const response = await fetch("/api/quotes", {
+      // Use the fetchAPI utility
+      const data = await fetchAPI("quotes/submit", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
         body: JSON.stringify(values),
       });
-
-      if (!response.ok) {
-        throw new Error("Failed to submit quote request");
-      }
-
-      const data = await response.json();
+      
       // Handle successful submission
       console.log("Quote request submitted successfully:", data);
     } catch (error) {

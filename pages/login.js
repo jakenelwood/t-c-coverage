@@ -16,6 +16,7 @@ import {
 } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Layout from '../components/Layout';
+import { login } from '../utils/api';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -44,22 +45,20 @@ export default function LoginPage() {
     setLoading(true);
 
     try {
-      // Mock login - in real implementation, this would be an API call
       if (formData.email && formData.password) {
-        // Placeholder for API call
-        console.log('Login attempt:', formData.email);
+        // Use the login utility function
+        await login(formData.email, formData.password);
         
-        // For demo purposes
-        setLoading(false);
-        setError('Login functionality will be connected to API endpoint');
+        // Redirect to agent portal
+        router.push("/agent-portal");
       } else {
-        setLoading(false);
         setError('Please enter both email and password');
       }
     } catch (err) {
-      setLoading(false);
       setError('Login failed. Please check your credentials.');
       console.error(err);
+    } finally {
+      setLoading(false);
     }
   };
 

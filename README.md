@@ -1,6 +1,82 @@
 # Twin Cities Coverage
 
-This is the repository for the Twin Cities Coverage website, a Next.js-based insurance quote lead generation site.
+Insurance quote lead generation website for TwinCitiesCoverage.com.
+
+## Architecture
+
+The application is split into two main components:
+
+1. **Frontend**: Next.js application (this repository) - provides the user interface
+2. **Backend**: FastAPI application (in `/app` directory) - provides the API
+
+## Setup
+
+### Prerequisites
+
+- Node.js 14+
+- Python 3.8+
+- Docker (optional, for containerization)
+
+### Frontend (Next.js)
+
+1. Install dependencies:
+   ```
+   npm install
+   ```
+
+2. Create a `.env.local` file with:
+   ```
+   NEXT_PUBLIC_API_URL=http://localhost:8000
+   ```
+
+3. Run the development server:
+   ```
+   npm run dev
+   ```
+
+### Backend (FastAPI)
+
+1. Install Python dependencies:
+   ```
+   pip install -r app/requirements.txt
+   ```
+
+2. Run the FastAPI server:
+   ```
+   cd app
+   uvicorn main:app --reload --port 8000
+   ```
+
+## API Integration
+
+The frontend communicates with the FastAPI backend for all data operations. The API can be accessed through:
+
+- Direct API calls to `http://localhost:8000/api/...`
+- Through the Next.js API proxy at `/api/...` (configured with rewrites)
+
+## Authentication
+
+JWT token-based authentication is used:
+
+1. User logs in via `/login` page
+2. API returns a JWT token
+3. Token is stored in localStorage
+4. Token is included in Authorization header for all subsequent API requests
+
+## API Routes
+
+The main API endpoints are:
+
+- `/api/auth/token` - Authentication
+- `/api/quotes/submit` - Submit quote requests
+- `/api/quotes/list` - List quotes
+- `/api/documents/{id}/generate` - Generate quote documents
+
+## Development Notes
+
+- All API functionality has been moved from Next.js to FastAPI
+- `utils/api.js` provides utility functions for API communication
+- The Next.js app is configured for static export with API proxying
 
 ## Local Development
 
@@ -41,27 +117,6 @@ NEXT_PUBLIC_API_URL=https://api.twincitiescoverage.com
 - `/public` - Static assets
 - `/styles` - CSS and SCSS files
 - `/lib` - Utility functions
-
-## API Integration
-
-The front-end communicates with a separate FastAPI backend hosted on Cloudflare Workers. API requests from the static export are directed to the API server defined by the `NEXT_PUBLIC_API_URL` environment variable.
-
-## Local API Development
-
-For local development with the API, you'll need to set up the Python environment:
-
-```bash
-# Create a virtual environment (optional but recommended)
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Run the API server locally
-cd api
-uvicorn main:app --reload
-```
 
 ## Features
 
