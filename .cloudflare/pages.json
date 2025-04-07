@@ -1,7 +1,7 @@
 {
   "build": {
-    "command": "npx @cloudflare/next-on-pages",
-    "output_directory": ".vercel/output/static",
+    "command": "npm run build",
+    "output_directory": ".next",
     "root_directory": "/"
   },
   "routes": [

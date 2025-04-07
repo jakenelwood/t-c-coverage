@@ -8,12 +8,12 @@ routes = [
 ]
 
 [site]
-bucket = ".vercel/output/static" # Next.js static files with cloudflare adapter
+bucket = ".next" # Standard Next.js static files
 entry-point = "."
 
 [build]
-command = "npx @cloudflare/next-on-pages"
-output_dir = ".vercel/output/static"
+command = "npm run build"
+output_dir = ".next"
 
 # Configure environment variables
 [vars]
