@@ -12,11 +12,9 @@ routes = [
 
 [site]
 bucket = ".next" # Standard Next.js static files
-entry-point = "."
 
 [build]
 command = "npm run build"
-output_dir = ".next"
 
 # Configure environment variables
 [vars]
