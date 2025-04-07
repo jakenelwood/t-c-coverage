@@ -5,6 +5,7 @@ import classNames from "classnames";
 import { makeStyles } from "@mui/styles";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
+import { Grid, Container, Typography } from "@mui/material";
 // @mui/icons-material
 import Favorite from "@mui/icons-material/Favorite";
 // core components
@@ -18,7 +19,6 @@ import Card from "/components/Card/Card.js";
 import CardBody from "/components/Card/CardBody.js";
 import Button from "/components/CustomButtons/Button.js";
 import InfoArea from "/components/InfoArea/InfoArea.js";
-import { Container, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 
 // Icons
