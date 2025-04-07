@@ -20,14 +20,18 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true
   },
-  // API configuration
+  // API configuration - only apply in development
   async rewrites() {
-    return [
-      {
-        source: '/api/:path*',
-        destination: 'http://localhost:8000/api/:path*' // FastAPI server
-      }
-    ];
+    // Only apply rewrites in development environment
+    if (process.env.NODE_ENV === 'development') {
+      return [
+        {
+          source: '/api/:path*',
+          destination: 'http://localhost:8000/api/:path*' // FastAPI server in development
+        }
+      ];
+    }
+    return []; // No rewrites in production, let Cloudflare handle it
   },
   // Optional export configuration for static exports
   exportPathMap: async function() {
