@@ -19,34 +19,15 @@ import App from "next/app";
 import Head from "next/head";
 import {
   ThemeProvider,
-  createTheme,
   StyledEngineProvider,
 } from "@mui/material/styles";
 
 import "/styles/scss/nextjs-material-kit-pro.scss";
-
 import "/styles/css/react-demo.css";
-
 import "animate.css/animate.min.css";
 
-const theme = createTheme({
-  components: {
-    MuiSelect: {
-      defaultProps: {
-        variant: "standard",
-      },
-    },
-    MuiTab: {
-      styleOverrides: {
-        root: {
-          "&.Mui-selected": {
-            color: "#fff !important",
-          },
-        },
-      },
-    },
-  },
-});
+// Import custom theme
+import theme from '../theme/theme';
 
 export default class MyApp extends App {
   componentDidMount() {

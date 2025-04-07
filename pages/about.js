@@ -2,6 +2,7 @@ import React from 'react';
 import { Container, Typography, Box, Grid, Card, CardContent } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import Layout from '../components/Layout';
+import { useRouter } from 'next/router';
 
 const HeroSection = styled(Box)(({ theme }) => ({
   position: 'relative',
@@ -39,6 +40,13 @@ const BenefitCard = styled(Card)(({ theme }) => ({
 }));
 
 export default function AboutPage() {
+  const router = useRouter();
+  
+  // Function to redirect to home page with form dialog open
+  const handleQuoteClick = () => {
+    router.push('/');
+  };
+
   // Same carrier logo mapping as in index.js
   const carrierLogos = {
     "AAA": "Carrier-AAA.webp",
@@ -56,7 +64,7 @@ export default function AboutPage() {
   };
 
   return (
-    <Layout>
+    <Layout onQuoteClick={handleQuoteClick}>
       <HeroSection>
         <Box sx={{ position: 'relative', zIndex: 1, textAlign: 'center' }}>
           <Typography variant="h2" component="h1" gutterBottom>

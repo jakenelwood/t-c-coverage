@@ -211,7 +211,7 @@ export default function LandingPage() {
   );
 
   return (
-    <Layout>
+    <Layout onQuoteClick={handleFormDialogOpen}>
       {/* Hero Section */}
       <HeroSection>
         <Container maxWidth="lg">

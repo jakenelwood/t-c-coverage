@@ -25,6 +25,15 @@ const NavButton = styled(Button)(({ theme }) => ({
   margin: theme.spacing(0, 1),
 }));
 
+const QuoteButton = styled(Button)(({ theme }) => ({
+  color: 'white',
+  margin: theme.spacing(0, 1),
+  backgroundColor: theme.palette.secondary.main,
+  '&:hover': {
+    backgroundColor: theme.palette.secondary.dark,
+  }
+}));
+
 const LogoButton = styled(Button)(({ theme }) => ({
   color: 'white',
   fontSize: '1.2rem',
@@ -35,7 +44,7 @@ const LogoButton = styled(Button)(({ theme }) => ({
   }
 }));
 
-export default function Layout({ children }) {
+export default function Layout({ children, onQuoteClick }) {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
@@ -48,6 +57,13 @@ export default function Layout({ children }) {
   const handleNavigation = (path) => {
     router.push(path);
     setDrawerOpen(false);
+  };
+
+  const handleQuoteClick = () => {
+    if (onQuoteClick) {
+      setDrawerOpen(false);
+      onQuoteClick();
+    }
   };
 
   const menuItems = [
@@ -101,6 +117,13 @@ export default function Layout({ children }) {
                     </NavButton>
                   </Link>
                 ))}
+                <QuoteButton 
+                  variant="contained" 
+                  color="secondary"
+                  onClick={handleQuoteClick}
+                >
+                  Get a Quote
+                </QuoteButton>
               </Box>
             )}
           </Container>
@@ -144,6 +167,21 @@ export default function Layout({ children }) {
               </ListItemButton>
             </ListItem>
           ))}
+          <ListItem disablePadding>
+            <ListItemButton 
+              onClick={handleQuoteClick}
+              sx={{
+                py: 2,
+                backgroundColor: theme.palette.secondary.main,
+                color: 'white',
+                '&:hover': {
+                  backgroundColor: theme.palette.secondary.dark,
+                }
+              }}
+            >
+              <ListItemText primary="Get a Quote" />
+            </ListItemButton>
+          </ListItem>
         </List>
       </Drawer>
       

@@ -1,10 +1,18 @@
 import React from 'react';
 import { Container, Typography, Box } from '@mui/material';
 import Layout from '../components/Layout';
+import { useRouter } from 'next/router';
 
 export default function PrivacyPage() {
+  const router = useRouter();
+  
+  // Function to redirect to home page with form dialog open
+  const handleQuoteClick = () => {
+    router.push('/');
+  };
+  
   return (
-    <Layout>
+    <Layout onQuoteClick={handleQuoteClick}>
       <Box sx={{ bgcolor: '#f5f5f5', py: 8 }}>
         <Container maxWidth="md">
           <Typography variant="h2" component="h1" gutterBottom align="center">

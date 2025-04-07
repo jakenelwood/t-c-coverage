@@ -26,6 +26,11 @@ export default function LoginPage() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
+  // Function to redirect to home page with form dialog open
+  const handleQuoteClick = () => {
+    router.push('/');
+  };
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -59,7 +64,7 @@ export default function LoginPage() {
   };
 
   return (
-    <Layout>
+    <Layout onQuoteClick={handleQuoteClick}>
       <Container maxWidth="xs" sx={{ my: 8 }}>
         <Paper elevation={3} sx={{ p: 4 }}>
           <Box
