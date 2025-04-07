@@ -1,7 +1,6 @@
 /*eslint-disable*/
 import React, { useState } from "react";
 import { useRouter } from "next/router";
-import { makeStyles } from "@material-ui/core/styles";
 import {
   Container,
   Grid,
@@ -18,35 +17,7 @@ import {
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Layout from '../components/Layout';
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    minHeight: "100vh",
-    display: "flex",
-    alignItems: "center",
-    background: "linear-gradient(60deg, #ab47bc, #8e24aa)",
-  },
-  card: {
-    marginTop: theme.spacing(8),
-    padding: theme.spacing(4),
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-  },
-  form: {
-    width: "100%",
-    marginTop: theme.spacing(1),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-  logo: {
-    marginBottom: theme.spacing(4),
-    maxWidth: "200px",
-  },
-}));
-
 export default function LoginPage() {
-  const classes = useStyles();
   const router = useRouter();
   const [formData, setFormData] = useState({
     email: '',
