@@ -2,6 +2,9 @@ name = "twincitiescoverage"
 main = "worker/index.js"
 compatibility_date = "2023-05-18"
 
+# Cloudflare Pages specific configuration
+pages_build_output_dir = ".next"
+
 # Configure route for your workers
 routes = [
   { pattern = "api.twincitiescoverage.com", custom_domain = true }

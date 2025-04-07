@@ -29,6 +29,20 @@ const nextConfig = {
   swcMinify: true,
   experimental: {
     optimizeCss: true,
+  },
+  // Reduce bundle size
+  webpack: (config, { isServer }) => {
+    // Only include minimum packages in the server bundle
+    if (isServer) {
+      config.externals = [...(config.externals || []), 
+        'react', 
+        'react-dom',
+        '@mui/material',
+        '@mui/icons-material'
+      ];
+    }
+    
+    return config;
   }
 };
 
