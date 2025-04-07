@@ -37,6 +37,13 @@ const nextConfig = {
   exportPathMap: async function() {
     return {
       '/': { page: '/' },
+      '/about': { page: '/about' },
+      '/about-us': { page: '/about-us' },
+      '/privacy': { page: '/privacy' },
+      '/privacy-policy': { page: '/privacy-policy' },
+      '/login': { page: '/login' },
+      '/agent-portal': { page: '/agent-portal' },
+      '/agent-portal/quote-request': { page: '/agent-portal/quote-request' },
       // Add other routes as needed
     };
   },

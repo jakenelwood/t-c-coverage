@@ -1,0 +1,62 @@
+Twin Cities Coverage Revised Testing Plan
+
+1. Local Development Build Validation
+- Run `npm run build` locally.
+- Confirm no build errors or warnings.
+- Pay close attention to static page generation.
+- Specifically test `/agent-portal/quote-request` and ensure no `undefined` or null references.
+
+2. Static Build Testing
+- Perform a static export using `npx next export`.
+- Validate generated HTML and assets under the `out/` directory.
+- Test exported pages locally using a static server (`npx serve out/`).
+- Confirm that pages like `/agent-portal/quote-request` do not throw errors.
+
+3. Full End-to-End (E2E) Functional Testing
+- Use the app in development mode (`npm run dev`) to manually verify major workflows.
+- Create a new quote request end-to-end.
+- Fill out forms with valid and invalid data.
+- Confirm form validation errors display properly.
+- Navigate through all multi-step forms and portals.
+
+4. Data Validation Testing
+- Ensure all form fields submit correct values.
+- Confirm API routes are receiving payloads properly.
+- Check if form steps handle empty/default/null cases gracefully (no crashes).
+
+5. UI Component Integrity Testing
+- Manually verify that all visible components render correctly.
+- Check PersonalInfoStep, AddressInfoStep, VehicleInfoStep individually.
+- Confirm fallback/default values are correctly handled in each component.
+
+6. Environment Variable Testing
+- Test `.env.production` settings locally.
+- Ensure required variables are set (no undefined environment access).
+- Validate fallback behavior for missing environment variables.
+
+7. Dependency Health Check
+- Run `npm audit` locally.
+- Resolve critical vulnerabilities if possible.
+- Document any remaining moderate or low-risk vulnerabilities.
+
+8. Final Production Build Simulation
+- After fixing any issues, perform a final `npm run build`.
+- Simulate Cloudflare Pages deployment locally if possible.
+- Confirm no blocking issues.
+
+---
+
+Notes:
+- Pay special attention to optional/undefined fields passed to components.
+- Consider adding default props or type guards in critical form steps.
+- Optionally add runtime checks in `PersonalInfoStep` to avoid "reading 'name' of undefined" errors.
+- Local builds should fully succeed before attempting deployment.
+
+---
+
+Next Steps:
+- Create basic unit tests for form components.
+- Consider shallow rendering all pages in Jest or Vitest to catch undefined props early.
+- Automate basic "does this page render" checks after each push.
+
+
