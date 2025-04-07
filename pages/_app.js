@@ -14,8 +14,7 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
-import App from "next/app";
+import React, { useEffect } from "react";
 import Head from "next/head";
 import {
   ThemeProvider,
@@ -29,8 +28,8 @@ import "animate.css/animate.min.css";
 // Import custom theme
 import theme from '../theme/theme';
 
-export default class MyApp extends App {
-  componentDidMount() {
+export default function MyApp({ Component, pageProps }) {
+  useEffect(() => {
     let comment = document.createComment(`
 
 =========================================================
@@ -48,34 +47,22 @@ export default class MyApp extends App {
 
 `);
     document.insertBefore(comment, document.documentElement);
-  }
-  static async getInitialProps({ Component, router, ctx }) {
-    let pageProps = {};
+  }, []);
 
-    if (Component.getInitialProps) {
-      pageProps = await Component.getInitialProps(ctx);
-    }
-
-    return { pageProps };
-  }
-  render() {
-    const { Component, pageProps } = this.props;
-
-    return (
-      <React.Fragment>
-        <Head>
-          <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1, shrink-to-fit=no"
-          />
-          <title>Twin Cities Coverage - Personalized Insurance</title>
-        </Head>
-        <ThemeProvider theme={theme}>
-          <StyledEngineProvider injectFirst>
-            <Component {...pageProps} />
-          </StyledEngineProvider>
-        </ThemeProvider>
-      </React.Fragment>
-    );
-  }
+  return (
+    <React.Fragment>
+      <Head>
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no"
+        />
+        <title>Twin Cities Coverage - Personalized Insurance</title>
+      </Head>
+      <ThemeProvider theme={theme}>
+        <StyledEngineProvider injectFirst>
+          <Component {...pageProps} />
+        </StyledEngineProvider>
+      </ThemeProvider>
+    </React.Fragment>
+  );
 }
