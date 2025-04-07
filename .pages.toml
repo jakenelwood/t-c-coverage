@@ -1,9 +1,7 @@
 # Cloudflare Pages configuration
-pages_build_output_dir = ".vercel/output/static"
-build.command = "./cloudflare-build.sh"
+pages_build_output_dir = "out"
+build.command = "npm run build"
 
-[build.environment]
+[env]
 NODE_VERSION = "18.12.0"
-
-[environment_variables]
 NEXT_PUBLIC_API_URL = "https://api.twincitiescoverage.com" 
