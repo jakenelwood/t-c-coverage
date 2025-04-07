@@ -80,14 +80,30 @@ export default function handler(req, res) {
 function createRootMiddleware() {
   const rootMiddlewarePath = path.join(__dirname, 'middleware.js');
   const middlewareContent = `
-// Empty middleware file compatible with Next.js 12.3.x for static export
-export function middleware() {
-  // This intentionally does nothing for static export
-  return;
+// Root middleware file following Next.js recommended pattern for static export
+import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
+
+export function middleware(request: NextRequest) {
+  // For static export, this middleware doesn't need to do anything
+  // But we follow the recommended pattern from Next.js docs
+  
+  if (request.nextUrl.pathname.startsWith('/api')) {
+    // For API routes, we would normally handle them here
+    // But for static export, API routes aren't processed
+    return NextResponse.next();
+  }
+  
+  // For all other routes, just continue
+  return NextResponse.next();
 }
 
 export const config = {
-  matcher: [],
+  // Define which paths this middleware should run on
+  matcher: [
+    // Optionally specify paths here
+    // For static export, we can leave this empty
+  ],
 };
 `;
   
