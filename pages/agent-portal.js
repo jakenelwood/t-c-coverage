@@ -123,7 +123,7 @@ export default function AgentPortal() {
     pnissn: "",
     pnims: "",
     pniedocc: "",
-    pni-prioraddr: "",
+    "pni-prioraddr": "",
 
     // Quote Types
     quote_types: [],

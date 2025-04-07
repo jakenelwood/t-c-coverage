@@ -111,7 +111,7 @@ export default function HeaderLinks() {
         <Button
           color="transparent"
           className={classes.navLink}
-          onClick={() => handleNavigation("/about-us")}
+          onClick={() => handleNavigation("/about")}
         >
           About
         </Button>
@@ -120,7 +120,7 @@ export default function HeaderLinks() {
         <Button
           color="transparent"
           className={classes.navLink}
-          onClick={() => handleNavigation("/privacy-policy")}
+          onClick={() => handleNavigation("/privacy")}
         >
           Privacy Policy
         </Button>
