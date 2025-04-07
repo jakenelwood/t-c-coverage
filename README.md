@@ -1,6 +1,67 @@
-# Twin Cities Coverage Insurance Quote Generator
+# Twin Cities Coverage
 
-A Next.js application for generating insurance quotes and managing agent workflows, deployed on Cloudflare Pages with Cloudflare Workers handling API endpoints.
+This is the repository for the Twin Cities Coverage website, a Next.js-based insurance quote lead generation site.
+
+## Local Development
+
+```bash
+# Install dependencies
+npm install
+
+# Run the development server
+npm run dev
+```
+
+The site will be available at http://localhost:3000.
+
+## Deployment to Cloudflare Pages
+
+This project is configured for deployment on Cloudflare Pages using static HTML export.
+
+### Deployment Settings in Cloudflare Dashboard
+
+1. **Framework preset**: Select "Next.js (Static HTML Export)"
+2. **Build command**: `npm run build`
+3. **Build output directory**: `out`
+4. **Node.js version**: 18.x
+
+### Environment Variables
+
+Add the following environment variables in Cloudflare Pages settings:
+
+```
+NODE_VERSION=18.12.0
+NEXT_PUBLIC_API_URL=https://api.twincitiescoverage.com
+```
+
+## Project Structure
+
+- `/pages` - Next.js pages
+- `/components` - Reusable React components
+- `/public` - Static assets
+- `/styles` - CSS and SCSS files
+- `/lib` - Utility functions
+
+## API Integration
+
+The front-end communicates with a separate FastAPI backend hosted on Cloudflare Workers. API requests from the static export are directed to the API server defined by the `NEXT_PUBLIC_API_URL` environment variable.
+
+## Local API Development
+
+For local development with the API, you'll need to set up the Python environment:
+
+```bash
+# Create a virtual environment (optional but recommended)
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Run the API server locally
+cd api
+uvicorn main:app --reload
+```
 
 ## Features
 
@@ -23,33 +84,6 @@ A Next.js application for generating insurance quotes and managing agent workflo
 - Wrangler CLI (`npm install -g wrangler`)
 - Cloudflare account
 - Git
-
-## Local Development Setup
-
-1. Clone the repository:
-```bash
-git clone https://github.com/jakenelwood/t-c-coverage.git
-cd t-c-coverage
-```
-
-2. Install dependencies:
-```bash
-npm install
-```
-
-3. Set up environment variables:
-```bash
-cp .env.example .env.local
-# Edit .env.local with your configuration
-```
-
-4. Start the development server:
-```bash
-npm run dev
-```
-
-The application will be available at:
-- Frontend: http://localhost:3000
 
 ## Project Structure
 
