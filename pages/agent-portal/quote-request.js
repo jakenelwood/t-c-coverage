@@ -1,13 +1,16 @@
 import React from "react";
 import { Container, Typography, Box } from "@mui/material";
 import QuoteRequestForm from "../../components/QuoteRequestForm";
-import { useSession } from "next-auth/react";
+// import { useSession } from "next-auth/react"; // Commented out for static export
 import { useRouter } from "next/router";
 
 const QuoteRequestPage = () => {
-  const { data: session, status } = useSession();
+  // Temporarily commented out for static HTML export
+  // const { data: session, status } = useSession();
   const router = useRouter();
 
+  // Temporarily commented out for static HTML export
+  /*
   // Redirect to login if not authenticated
   React.useEffect(() => {
     if (status === "unauthenticated") {
@@ -33,6 +36,7 @@ const QuoteRequestPage = () => {
   if (!session) {
     return null;
   }
+  */
 
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>

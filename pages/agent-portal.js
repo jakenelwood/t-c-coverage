@@ -247,9 +247,12 @@ export default function AgentPortal() {
   };
 
   useEffect(() => {
+    // Temporarily commented out for static HTML export
+    /*
     if (!isAuthenticated()) {
       router.push("/login");
     }
+    */
   }, []);
 
   const renderStepContent = (step) => {
