@@ -2,7 +2,7 @@
 
 const nextConfig = {
   reactStrictMode: true,
-  output: 'export',
+  output: 'standalone',
   distDir: 'out',
   trailingSlash: true,
   images: {
@@ -11,6 +11,9 @@ const nextConfig = {
   },
   eslint: {
     ignoreDuringBuilds: true
+  },
+  experimental: {
+    esmExternals: true
   }
 };
 
