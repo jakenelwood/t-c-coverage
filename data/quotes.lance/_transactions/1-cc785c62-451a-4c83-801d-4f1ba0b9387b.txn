@@ -1,0 +1,5 @@
+$cc785c62-451a-4c83-801d-4f1ba0b9387b²ª!quote_id ÿÿÿÿÿÿÿÿÿ*string08&agent_email ÿÿÿÿÿÿÿÿÿ*string08$quote_types ÿÿÿÿÿÿÿÿÿ*list08item *string08&personal_info ÿÿÿÿÿÿÿÿÿ*struct0
+first_name *string08	last_name *string08email *string08phone *string08address	 *string08!status
+ ÿÿÿÿÿÿÿÿÿ*string08%
+created_at ÿÿÿÿÿÿÿÿÿ*string08%
+updated_at ÿÿÿÿÿÿÿÿÿ*string08

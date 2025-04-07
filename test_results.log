@@ -1,0 +1,6 @@
+2025-04-06 23:02:41,879 - INFO - Starting test suite at 2025-04-06 23:02:41.879159
+2025-04-06 23:02:41,879 - INFO - Running test suite: tests.test_document_generation
+2025-04-06 23:02:41,971 - ERROR - Error running test suite <unittest.suite.TestSuite tests=[None]>: unhashable type: 'TestSuite'
+2025-04-06 23:03:14,080 - INFO - Starting test suite at 2025-04-06 23:03:14.080446
+2025-04-06 23:03:14,080 - INFO - Running test suite: tests.test_document_generation
+2025-04-06 23:03:14,893 - ERROR - Error running test suite <unittest.suite.TestSuite tests=[None]>: unhashable type: 'TestSuite'

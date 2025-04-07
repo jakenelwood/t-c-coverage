@@ -1,0 +1,83 @@
+# See https://help.github.com/ignore-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# local env files
+.env*.local
+.env
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# access info and sensitive data
+access-info-tcc
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.env
+
+# generated folders
+output/
+
+# python
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+develop-eggs/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# virtual environment
+ENV/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# output files
+*.docx
+*.pdf
+
+# database
+*.db
+*.sqlite3

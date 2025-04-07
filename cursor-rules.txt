@@ -1,0 +1,264 @@
+Project Scope
+You are building an insurance quote lead generation website for TwinCitiesCoverage.com, hosted on Vercel. However, there is an existing version that needs to be removed first. The new site includes a public-facing landing page to collect basic lead information and an "Agent Login" portal for authenticated users. Inside the Agent Portal, a form-driven Quote Request Generator captures structured user input for Auto, Home, and Specialty (Umbrella, Toys, etc.) insurance quotes. Upon form submission, the system dynamically fills pre-styled Word templates and generates downloadable .docx and .pdf files. The backend uses FastAPI, running on a Hetzner AX52 server. Quote request data is stored in LanceDB. Future AI integration (for quote assistance and lead intelligence) is planned. The full system — including the Quote Request Generator — must be fully mobile-compatible. User Docker to create a separate space on the AX52.
+
+Use the NextJS Material Kit PRO template and keep the following sections in the template, which are include in the Examples section of the template: Landing Page and About Us. In addition, there will be a Privacy page. Specifically for the Privacy Page: Use the BasicSection layout from Creative Tim’s Material Kit Pro — but stripped down to just: A Header ("Privacy Policy"), a single vertical text block (paragraphs of privacy info), footer underneath. Lastly, there will be a quote request generation section of the site that is accessed through the Agent Login link.
+
+Photos for the landing and about us pages are in the tcc-images folder. carrier logos for the landing and about us pages are in the carrier logos folder.
+
+Navbar Layout - Add a clean Agent Login link to the Navbar (top-right corner)
+[Home] [About] [Privacy Policy] [Agent Login]
+
+--------------------------------------------------------
+LANDING PAGE
+Use Landing page layout from Material Kit Pro template.
+
+[Navbar]: Keep - Clean, shrink navigation to Home, About, Privacy, Agent Login
+
+[Hero Section]
+  - Background image with dark overlay filter
+  - Headline: Personalized Coverage. Smarter Savings.
+  - Subheadline: Protect what matters most while improving your coverage and paying less
+ 
+ Mini-Form:                                      |
+|      - First Name                                   |
+|      - Home Address                                 |
+|      - Phone Number                                 |
+|      - Email Address                                |
+|      - [CTA Button]: Get My Personalized Quotes  
+
+[Product Section (Features Grid)]: Keep - repurpose into "Why Choose Us" (Save Time, Personalized Coverage, Trusted Carriers)
+
+[Carrier Logos Section]
+  - Grid of Carrier Logos (3-4 logos per row, arranged alphabetically, responsive): AAA, American Collectors, Auto-Owners, Dairyland, Foremost, National General, Nationwide, Progressive, Safeco, Travelers, West Bend, Hartford
+  - Small caption: "Proudly Partnered With Trusted Carriers"
+
+[Team Section]	❌ Delete 
+[Work Section (Gallery)] ❌ Delete - not relevant for insurance
+[Contact Section (Form)] ❌ Delete - the soft form is already in the Hero
+[Footer] Keep (simplified)]: Include Home, About, Privacy, Agent Login
+
+--------------------------------------------------------
+ABOUT US
+Use About Us page layout from Material Kit Pro template.
+[Hero Heading]: About Twin Cities Coverage
+- Image
+- Short subheadline: Helping Minnesota families protect what matters most.
+
+[About Section (Text Block)]
+Insurance should protect what matters most in life — at the right price.
+
+At Twin Cities Coverage, we help Minnesota families quickly and easily compare personalized insurance options from trusted national carriers.
+With access to companies like Progressive, Travelers, Safeco, Nationwide, and more, we make sure you're choosing from some of the best in the industry — all without the hassle of shopping around yourself.
+
+Our simple process puts you in control.
+One form. Multiple quotes. Real savings.
+
+Whether you're protecting your car, your home, or your future, we're here to make insurance simpler, smarter, and built around your life.
+
+[Info Area Cards (Benefits)]
+- Compare Real Quotes
+- Trusted National Carriers
+- Personalized Coverage Recommendations
+
+[Carrier Logos Grid]
+- Logos of Progressive, Travelers, Safeco, Nationwide, etc.
+- Static, clean layout
+
+[Team Section] ❌ Remove
+[Office Location/Map Section] ❌ Remove
+
+[Call to Action Banner]
+- "Ready to Compare Quotes?" → Button: [Get My Quotes]
+At the very bottom of the About page (tiny font, footer or small final line),
+you can optionally include something like:
+
+    "Twin Cities Coverage helps Minnesota residents compare insurance options for auto, home, renters, and umbrella policies."
+
+(Helps reinforce insurance types to Google without keyword stuffing the main copy.)
+
+[Footer] Keep (simplified)]: Include Home, About, Privacy, Agent Login
+
+--------------------------------------------------------
+PRIVACY PAGE
+Use a basic "Blank Page" or simple BasicSection layout. Specifically: Use the BasicSection layout from Creative Tim’s Material Kit Pro — but stripped down to just: A Header ("Privacy Policy"), a single vertical text block (paragraphs of privacy info), footer underneath
+
+[Navbar at Top]: Same as other pages
+
+[Hero Heading Block]:
+- Big H1: Privacy Policy
+- (Optional) Soft subheadline: "Your privacy is important to us."
+
+1. Introduction
+2. Information We Collect
+3. How We Use Information
+4. Data Protection
+5. Information Sharing
+6. SMS/Text Messaging Consent 
+7. Your Rights (opt-out instructions)
+8. Contact Us
+
+SMS/Text Messaging Consent: By providing your phone number and submitting your information through our website, you consent to receive informational and marketing text messages (SMS) from Twin Cities Coverage. Message and data rates may apply. Message frequency may vary. You may opt out of receiving text messages at any time by replying "STOP" to any message or contacting us at brian@twincitiescoverage.com.
+
+[Footer] Keep (simplified)]: Include Home, About, Privacy, Agent Login
+
+---------------------------------------
+AGENT LOGIN
+Use Contact US page layout from Material Kit Pro template as a starting place.
+
+Login Page (/login) Simple, clean Login screen (username + password)
+Authentication	Use NextAuth.js (if you want simple email/password for now) or basic JWT auth
+Post-Login Dashboard: Redirect authenticated agents to /agent-portal (dashboard or simple form page)
+Agent Portal Page (/agent-portal) Full 150+ data field form. User can check one or more boxes: Auto, Home, Specialty. Depending on which boxes are selected, the corresponding data fields will be printed to the screen for completion by the user. Break the data input process down into steps, if selected (with the exception of Personal Info, which must be completed for each request): Personal Info, Auto Info, Property Info, Umbrella Info, Specialty Info, Review & Generate.
+
+Remove "Send Message" Context	Change "Send Message" labels to "Submit Quote Request" or "Generate Quote"
+Expand Form	Add new fields for Auto, Home, Umbrella, Personal Info, etc. (150+ fields)
+Use Multi-Section Form	Insert small section headers: Auto Insurance Details, Driver Info, Property Info, Additional Coverages
+Use Stepper (Wizard-Style Form) split into "steps" with a progress bar (Formik Stepper pattern).
+Use basic client-side and server-side validation to prevent missing required fields for all Personal Info data fields. For all other data fields without data, print "N/A" to the PDF and DOCX quote request sheets.
+On Submit send form data to API → generate PDF and DOCX for download
+
+Form Output	After filling the form → Generate and download Quote Request as:
+
+    📄 PDF
+
+    📄 DOCX (Word)
+
+
+- If multiple quote types are selected (e.g., Auto + Home), generate separate documents for each.
+- Store .docx templates in /templates/, output user-generated files to /output/.
+- Use markdown-style placeholders inside templates (e.g., {{name}}, {{dob1}}, {{address}}).
+- All form fields missing values should auto-fill as "N/A" to maintain clean output.
+- Store all versions of quotes and append the date and time to each for version control. 
+- Provide search functionality to find prior records and associated docx and pdf forms previously created.
+- Include a "Send For Quoting" button that creates an Outlook message with the selected docx and pdfs attached. 
+
+Backend Code Style & Structure
+
+- Use modular Python code with the following structure:
+/app
+  /routes/           # API endpoints (e.g., submit_quote.py)
+  /mappings/         # Separate mapping files (auto_mapping.py, home_mapping.py, specialty_mapping.py)
+  /templates/        # Stored .docx templates
+  /generators/       # Document generation logic (e.g., generate_auto_quote.py)
+  /utils/            # Shared functions (e.g., replace_placeholders.py, pdf_converter.py)
+/output                  # Generated documents organized by quote type
+/static                  # Any static files if needed
+
+- Docx Generation:
+  - Use python-docx for Word generation with a reusable replace_placeholders(doc, mapping) function.
+  - Generate .pdf versions using docx2pdf after .docx files are created.
+  - Output filenames should include a timestamp and client name for easy tracking.
+
+- Mappings:
+  - Maintain clean, split mappings by quote type:
+    - /mappings/auto_mapping.py
+    - /mappings/home_mapping.py
+    - /mappings/specialty_mapping.py
+  - Use "N/A" as the fallback for missing data.
+
+Frontend Development (Next.js Material Kit Pro)
+
+- Create a new page under /pages/quote-request/ for the quote intake form.
+- Capture structured input fields covering:
+  - Common fields: name, phone, email, address
+  - Auto-specific fields: drivers, vehicles
+  - Home-specific fields: property coverage, features
+  - Specialty fields: toys, umbrellas, market values
+- Form input names must exactly match backend mappings (driver-1-name, vehicle-1-make, etc.).
+- On submit, POST the form data as JSON to the FastAPI /submit-quote endpoint.
+- After successful quote submission:
+  - Show a Download Your Quote link or button.
+  - Optionally auto-start the download once processing is complete.
+
+Document Handling Rules
+
+- Each quote type (Auto, Home, Specialty) uses a different .docx template.
+- If the user selects multiple quotes (e.g., Auto + Home):
+  - Generate two .docx files.
+  - Generate two .pdf files.
+- Files are saved in:
+/output/auto/
+/output/home/
+/output/specialty/
+
+Phase 2 Features
+
+- Allow granular export of quote data to CSV or CRM integrations.
+- Implement logic to merge multiple PDFs into a single downloadable document if requested.
+- Add status messaging for users while their quote is processing ("Your quote is almost ready...").
+
+Reminders for Cursor Agents
+
+- Keep code modular, organized cleanly by feature type (routes, templates, mappings, utils).
+- All form fields submitted should be mapped against their corresponding placeholders exactly.
+- Use "N/A" defaults to maintain clean document output even with incomplete form data.
+- Templates must remain visually polished and maintain 11pt final font size even if input data is short or missing.
+
+Dynamic User Input Flow:
+
+- The quote request form must dynamically collect Primary Named Insured (PNI) personal information first:
+  - Name, Address, Mailing Address, Phone, Email, Date of Birth, SSN, Marital Status, Occupation, Prior Address (if needed).
+
+- After primary information:
+  - Prompt for Auto, Home, and Specialty (Toy) quote details based on selected coverage types.
+  - Each policy section (Auto, Home, Specialty) must dynamically appear based on user choices.
+
+- After collecting the primary insured information:
+  - Ask: "Would you like to add any Additional Named Insureds (e.g., spouse, co-owner)?"
+    - If yes, allow entry of additional insureds:
+      - Name, DOB, SSN, Relationship to Primary, Phone (optional), Email (optional).
+    - Prompt to assign each Additional Insured to specific policy types:
+      - Auto Policy → Assign to Driver 2, 3, etc. + Vehicle(s)
+      - Home Policy → Assign as Co-Homeowner
+      - Specialty Policy → Assign as Co-Owner of specific Toy(s)
+
+- The form must:
+  - Allow multiple additional insureds.
+  - Link each additional insured to the applicable policies and/or vehicles/toys.
+  - Respect the mapping structure established in the placeholder mappings.
+
+- Vehicle entry:
+  - Dynamically allow user to add up to 8 vehicles.
+  - For each vehicle, collect Year, Make, Model, VIN, Usage, Miles Driven, Primary Driver, Comp/Coll coverage options, Finance info, GAP insurance, etc.
+
+- Specialty toy entry:
+  - Dynamically allow user to add up to 8 specialty items (boats, motorcycles, ATVs, etc.).
+  - Collect Year, Make, Model, VIN, Horsepower, Top Speed, Market Value, Storage Location, Comp/Collision Deductibles.
+
+- Each section must:
+  - Allow adding/removing entries dynamically (vehicles, drivers, toys).
+  - Auto-map input fields to correct shortened placeholder keys (as defined).
+
+---
+
+JWT Authentication for Agent Portal:
+
+- JWT (JSON Web Tokens) will be used to authenticate agents securely.
+- Upon successful login (email + password), the backend will issue a signed JWT containing:
+  - agent_id
+  - agent_email
+  - permissions (roles/scopes)
+  - expiration (e.g., 1 hour expiry)
+- The token will be stored securely in browser memory (preferably HTTP-only cookies or secure localStorage if needed).
+
+Authentication Flow:
+1. Agent logs in via agent portal frontend (Next.js form).
+2. Frontend sends credentials to backend `/api/auth/login` endpoint.
+3. Backend verifies credentials against database.
+4. Backend generates JWT token and returns it to frontend.
+5. Frontend attaches JWT to Authorization headers (`Authorization: Bearer <token>`) for all future API requests.
+6. Backend validates JWT on each protected API route:
+   - Verifies signature, expiration, and roles/scopes if needed.
+
+JWT Details:
+- JWTs are signed with a secure server-side secret (e.g., HS256 algorithm).
+- Refresh Tokens can optionally be implemented for long sessions.
+- If JWT expires or is invalid, user is forced to re-authenticate.
+
+Best Practices:
+- Set short expiry times (e.g., 1 hour) to limit exposure.
+- Rotate secret signing keys periodically.
+- Store only essential information inside the token.
+
+
+

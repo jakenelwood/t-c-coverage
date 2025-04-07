@@ -1,0 +1,244 @@
+
+TwinCitiesCoverage.com - Comprehensive Testing Plan
+------------------------------------------------------------
+
+Unit Testing
+------------
+- Test generate_auto_quote() with full valid input.
+- Test generate_home_quote() with partial/missing input.
+- Test generate_specialty_quote() with minimal required input.
+- Validate replace_placeholders() correctly fills all fields.
+- Ensure missing fields are replaced with "N/A".
+- Validate PDF generation from DOCX using docx2pdf.
+
+Integration Testing
+-------------------
+- Submit valid Auto quote form through API and check DOCX + PDF generation.
+- Submit valid Home quote form and check output.
+- Submit combined Auto + Home + Specialty quote and verify three documents.
+- Submit invalid data and expect HTTP 400 error with clean message.
+- Validate common fields (name, address) appear across all quote types.
+
+Authentication Testing
+-----------------------
+- Verify only authenticated agents can access /agent-portal.
+- Verify protected API endpoints return 401 Unauthorized if accessed without token.
+
+Multi-Quote Submission Testing
+------------------------------
+- Submit Auto + Home quote request.
+- Verify two separate DOCX and PDF files are generated.
+- Check each file is correctly named with timestamp and client name.
+
+File Versioning Testing
+------------------------
+- Generate multiple quotes for same client.
+- Verify filenames include timestamps.
+- Ensure no overwriting occurs.
+
+Template Validation Testing
+----------------------------
+- Scan all templates for unfilled placeholders like {{field}}.
+- Ensure no placeholders remain after document generation.
+
+Frontend End-to-End Testing
+----------------------------
+- Cypress test: Form submission on desktop viewport (1280x720).
+- Cypress test: Form submission on mobile viewport (iPhone 12, Galaxy S20).
+- Cypress test: Full Agent Portal multi-step form.
+- Validate form input errors display correctly.
+- Validate successful quote document download after form submission.
+- Validate "Send For Quoting" button correctly creates Outlook email draft with attachments.
+
+Retention and Cleanup Testing
+------------------------------
+- Ensure generated documents are deleted after 24h.
+- Verify temporary output folders are cleared on generation failure.
+
+Performance and Load Testing
+-----------------------------
+- Document generation completes in under 5 seconds.
+- Simulate 50 concurrent quote form submissions.
+- Validate API remains stable under concurrent load.
+
+Accessibility Testing (a11y)
+----------------------------
+- Ensure all form fields are properly labeled for screen readers.
+- Ensure form is navigable via keyboard tabbing.
+
+CI/CD Automation
+----------------
+- Run pytest unit and integration tests on each pull request.
+- Validate templates automatically before merging.
+- Run Cypress desktop viewport tests.
+- Run Cypress mobile viewport tests.
+- Run multi-quote generation tests.
+- Validate Agent Portal authentication tests.
+
+Additional Testing Enhancements
+--------------------------------
+- Error Injection Testing: POST incomplete/bad JSON and validate graceful failures.
+- Document Format Validation: Attempt to reload generated DOCX files.
+- Load and Stress Testing with Locust or Artillery for backend API.
+- Accessibility audit with axe-core or Cypress-a11y plugin.
+- Template Versioning: Track and test against specific template versions.
+
+Deployment Validation
+----------------------
+- Run full template scan before any production deployment.
+- Run full E2E Cypress suite on staging before final merge.
+
+Example Testing Code
+------------------------------------------------------------
+
+(A. through F. Example Testing Code as outlined)
+
+
+Example Testing Code
+------------------------------------------------------------
+
+A. Unit Testing
+
+File: tests/test_document_generation.py
+
+import pytest
+from app.generators.auto_quote import generate_auto_quote
+
+def test_auto_quote_generation():
+    quote_data = {
+        "client_name": "Test Client",
+        "auto_data": {"vehicle_make": "Toyota", "vehicle_model": "Camry"}
+    }
+    result = generate_auto_quote(quote_data)
+    assert result["success"] == True
+    assert "file_path" in result
+
+------------------------------------------------------------
+
+B. Integration Tests
+
+File: tests/test_api_integration.py
+
+import pytest
+import requests
+
+def test_end_to_end_quote_submission():
+    quote_data = {
+        "client_name": "Integration Test",
+        "quote_types": ["Auto"],
+        "auto_data": {"vehicle_make": "Honda", "vehicle_model": "Civic"}
+    }
+    response = requests.post("http://api:8001/api/quotes/", json=quote_data)
+    assert response.status_code == 201
+    quote_id = response.json()["id"]
+    doc_response = requests.post(f"http://api:8001/api/documents/{quote_id}/generate")
+    assert doc_response.status_code == 202
+    url_response = requests.get(f"http://api:8001/api/documents/{quote_id}/download")
+    assert url_response.status_code == 200
+    assert "docx_url" in url_response.json()
+
+------------------------------------------------------------
+
+C. Pre-commit Hooks
+
+File: .pre-commit-config.yaml
+
+repos:
+- repo: local
+  hooks:
+  - id: document-generation-test
+    name: Test Document Generation
+    entry: pytest tests/test_document_generation.py -v
+    language: system
+    pass_filenames: false
+    always_run: true
+
+------------------------------------------------------------
+
+D. API Documentation and Contract Testing
+
+File: tests/test_api_spec.py
+
+from fastapi.testclient import TestClient
+from app.main import app
+
+client = TestClient(app)
+
+def test_openapi_spec():
+    response = client.get("/openapi.json")
+    assert response.status_code == 200
+    spec = response.json()
+    assert "/api/documents/{quote_id}/generate" in spec["paths"]
+    assert "/api/documents/{quote_id}/download" in spec["paths"]
+
+------------------------------------------------------------
+
+E. Monitoring and Performance Logging
+
+File: app/utils/monitoring.py
+
+import logging
+logger = logging.getLogger("quote_generation")
+
+def log_document_generation(quote_id, success, error=None):
+    if success:
+        logger.info(f"Document generation successful for quote {quote_id}")
+    else:
+        logger.error(f"Document generation failed for quote {quote_id}: {error}")
+
+------------------------------------------------------------
+
+File: app/middleware/timing.py
+
+import time
+from fastapi import Request
+
+async def timing_middleware(request: Request, call_next):
+    start_time = time.time()
+    response = await call_next(request)
+    process_time = time.time() - start_time
+    if request.url.path.startswith("/api/documents/"):
+        if process_time > 5.0:
+            logger.warning(f"Document generation slow: {process_time}s")
+    return response
+
+------------------------------------------------------------
+
+F. Template Placeholder Testing
+
+File: tests/test_template_placeholders.py
+
+import pytest
+from docx import Document
+
+def replace_placeholders(doc, data):
+    for para in doc.paragraphs:
+        for key, value in data.items():
+            placeholder = "{{" + key + "}}"
+            if placeholder in para.text:
+                para.text = para.text.replace(placeholder, str(value))
+    for table in doc.tables:
+        for row in table.rows:
+            for cell in row.cells:
+                for para in cell.paragraphs:
+                    for key, value in data.items():
+                        placeholder = "{{" + key + "}}"
+                        if placeholder in para.text:
+                            para.text = para.text.replace(placeholder, str(value))
+    return doc
+
+def test_auto_template_placeholders():
+    test_data = {
+        "client_name": "Test Client",
+        "vehicle_1_make": "Toyota"
+    }
+    doc = Document()
+    doc.add_paragraph("Name: {{client_name}}")
+    doc.add_paragraph("Make: {{vehicle_1_make}}")
+    doc = replace_placeholders(doc, test_data)
+    assert "Name: Test Client" in doc.paragraphs[0].text
+    assert "Make: Toyota" in doc.paragraphs[1].text
+    for para in doc.paragraphs:
+        assert "{{" not in para.text and "}}" not in para.text
+
+------------------------------------------------------------
