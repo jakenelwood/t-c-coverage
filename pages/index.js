@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { styled } from "@mui/material/styles";
 import {
   Container,
@@ -9,7 +9,15 @@ import {
   Card,
   CardContent,
   Box,
+  useMediaQuery,
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  IconButton,
+  Fade,
+  useTheme
 } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 import { useRouter } from "next/router";
 import Layout from '../components/Layout';
 
@@ -19,7 +27,7 @@ const HeroSection = styled(Box)(({ theme }) => ({
   backgroundImage: "url('/tcc-images/landing-page-image.jpg')",
   backgroundSize: "cover",
   backgroundPosition: "center",
-  height: "100vh",
+  minHeight: "80vh",
   display: "flex",
   alignItems: "center",
   "&::before": {
@@ -37,14 +45,38 @@ const HeroContent = styled(Box)(({ theme }) => ({
   position: "relative",
   zIndex: 1,
   color: "white",
-  textAlign: "center",
+  [theme.breakpoints.up('md')]: {
+    textAlign: "left",
+    paddingRight: theme.spacing(4),
+  },
+  [theme.breakpoints.down('md')]: {
+    textAlign: "center",
+  },
+}));
+
+const HeroCTABox = styled(Box)(({ theme }) => ({
+  position: "relative",
+  zIndex: 1,
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  justifyContent: "center",
 }));
 
 const MiniForm = styled(Box)(({ theme }) => ({
   backgroundColor: "white",
   padding: theme.spacing(4),
   borderRadius: theme.spacing(1),
-  marginTop: theme.spacing(4),
+  width: "100%",
+  [theme.breakpoints.up('md')]: {
+    maxWidth: "500px",
+  },
+}));
+
+const CTAButton = styled(Button)(({ theme }) => ({
+  padding: theme.spacing(2, 4),
+  fontSize: "1.2rem",
+  marginTop: theme.spacing(3),
 }));
 
 const FeatureCard = styled(Card)(({ theme }) => ({
@@ -69,7 +101,11 @@ const CarrierLogo = styled('img')(({ theme }) => ({
 
 export default function LandingPage() {
   const router = useRouter();
-  const [formData, setFormData] = React.useState({
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const [formDialogOpen, setFormDialogOpen] = useState(false);
+  
+  const [formData, setFormData] = useState({
     firstName: "",
     address: "",
     phone: "",
@@ -80,10 +116,19 @@ export default function LandingPage() {
     e.preventDefault();
     // TODO: Implement form submission logic
     console.log("Form submitted:", formData);
+    setFormDialogOpen(false);
   };
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleFormDialogOpen = () => {
+    setFormDialogOpen(true);
+  };
+
+  const handleFormDialogClose = () => {
+    setFormDialogOpen(false);
   };
 
   // Carrier logo mapping - updated with actual file names and extensions
@@ -102,82 +147,134 @@ export default function LandingPage() {
     "Hartford": "hartford.jpeg"
   };
 
+  // Quote form component to be reused
+  const QuoteForm = ({ onSubmit }) => (
+    <MiniForm component="form" onSubmit={onSubmit}>
+      <Typography variant="h6" align="center" gutterBottom color="primary">
+        Get Your Personalized Quote
+      </Typography>
+      <Grid container spacing={2}>
+        <Grid item xs={12} sm={6}>
+          <TextField
+            fullWidth
+            label="First Name"
+            name="firstName"
+            value={formData.firstName}
+            onChange={handleChange}
+            required
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <TextField
+            fullWidth
+            label="Home Address"
+            name="address"
+            value={formData.address}
+            onChange={handleChange}
+            required
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <TextField
+            fullWidth
+            label="Phone Number"
+            name="phone"
+            value={formData.phone}
+            onChange={handleChange}
+            required
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <TextField
+            fullWidth
+            label="Email Address"
+            name="email"
+            type="email"
+            value={formData.email}
+            onChange={handleChange}
+            required
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            size="large"
+            fullWidth
+          >
+            Get My Personalized Quotes
+          </Button>
+        </Grid>
+      </Grid>
+    </MiniForm>
+  );
+
   return (
     <Layout>
       {/* Hero Section */}
       <HeroSection>
-        <Container>
-          <HeroContent>
-            <Typography variant="h2" component="h1" gutterBottom>
-              Personalized Coverage. Smarter Savings.
-            </Typography>
-            <Typography variant="h5" gutterBottom>
-              Protect what matters most while improving your coverage and paying less
-            </Typography>
-
-            {/* Mini Form */}
-            <MiniForm component="form" onSubmit={handleSubmit}>
-              <Grid container spacing={2}>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    fullWidth
-                    label="First Name"
-                    name="firstName"
-                    value={formData.firstName}
-                    onChange={handleChange}
-                    required
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    fullWidth
-                    label="Home Address"
-                    name="address"
-                    value={formData.address}
-                    onChange={handleChange}
-                    required
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    fullWidth
-                    label="Phone Number"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    required
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    fullWidth
-                    label="Email Address"
-                    name="email"
-                    type="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <Button
-                    type="submit"
-                    variant="contained"
+        <Container maxWidth="lg">
+          <Grid container>
+            <Grid item xs={12} md={6}>
+              <HeroContent>
+                <Typography variant="h2" component="h1" gutterBottom>
+                  Personalized Coverage. Smarter Savings.
+                </Typography>
+                <Typography variant="h5" gutterBottom>
+                  Protect what matters most while improving your coverage and paying less
+                </Typography>
+                
+                {!isMobile && (
+                  <CTAButton 
+                    variant="contained" 
                     color="primary"
-                    size="large"
-                    fullWidth
+                    onClick={handleFormDialogOpen}
                   >
-                    Get My Personalized Quotes
-                  </Button>
-                </Grid>
-              </Grid>
-            </MiniForm>
-          </HeroContent>
+                    Get Your Free Quote Now
+                  </CTAButton>
+                )}
+              </HeroContent>
+            </Grid>
+            
+            <Grid item xs={12} md={6}>
+              <HeroCTABox>
+                {isMobile && <QuoteForm onSubmit={handleSubmit} />}
+              </HeroCTABox>
+            </Grid>
+          </Grid>
         </Container>
       </HeroSection>
 
+      {/* Quote Form Dialog (for desktop) */}
+      <Dialog
+        open={formDialogOpen}
+        onClose={handleFormDialogClose}
+        TransitionComponent={Fade}
+        maxWidth="sm"
+        fullWidth
+      >
+        <DialogTitle>
+          Request Your Free Quote
+          <IconButton
+            aria-label="close"
+            onClick={handleFormDialogClose}
+            sx={{
+              position: 'absolute',
+              right: 8,
+              top: 8,
+            }}
+          >
+            <CloseIcon />
+          </IconButton>
+        </DialogTitle>
+        <DialogContent>
+          <QuoteForm onSubmit={handleSubmit} />
+        </DialogContent>
+      </Dialog>
+
       {/* Why Choose Us Section */}
-      <Container>
+      <Container sx={{ py: 8 }}>
         <Typography variant="h3" align="center" gutterBottom>
           Why Choose Us
         </Typography>
@@ -227,7 +324,7 @@ export default function LandingPage() {
           </Typography>
           <Grid container spacing={2} justifyContent="center">
             {Object.keys(carrierLogos).map((carrier) => (
-              <Grid item xs={6} sm={4} md={3} key={carrier}>
+              <Grid item xs={6} sm={4} md={2} key={carrier}>
                 <CarrierLogo
                   src={`/carrier-logos/${carrierLogos[carrier]}`}
                   alt={carrier}
