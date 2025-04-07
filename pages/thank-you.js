@@ -1,6 +1,6 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import { Container, Typography, Button, Box } from "@material-ui/core";
+import { makeStyles } from "@mui/styles";
+import { Container, Typography, Button, Box } from "@mui/material";
 import { useRouter } from "next/router";
 
 const useStyles = makeStyles((theme) => ({

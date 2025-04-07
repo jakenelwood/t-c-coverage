@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@mui/styles";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import Icon from "@mui/material/Icon";

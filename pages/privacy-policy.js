@@ -2,7 +2,7 @@
 import React from "react";
 // nodejs library that concatenates classes
 import classNames from "classnames";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@mui/styles";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 // @mui/icons-material
@@ -14,7 +14,8 @@ import GridContainer from "/components/Grid/GridContainer.js";
 import GridItem from "/components/Grid/GridItem.js";
 import Parallax from "/components/Parallax/Parallax.js";
 import Footer from "/components/Footer/Footer.js";
-import { Container, Typography, Box } from "@material-ui/core";
+import { Container, Typography, Box } from "@mui/material";
+import Button from "/components/CustomButtons/Button.js";
 
 import privacyPolicyStyle from "/styles/jss/nextjs-material-kit-pro/pages/aboutUsStyle.js";
 

@@ -2,7 +2,7 @@
 import React from "react";
 // nodejs library that concatenates classes
 import classNames from "classnames";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@mui/styles";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 // @mui/icons-material
@@ -18,7 +18,7 @@ import Card from "/components/Card/Card.js";
 import CardBody from "/components/Card/CardBody.js";
 import Button from "/components/CustomButtons/Button.js";
 import InfoArea from "/components/InfoArea/InfoArea.js";
-import { Container, Typography } from "@material-ui/core";
+import { Container, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 
 // Icons

@@ -1,7 +1,7 @@
 /*eslint-disable*/
 import React, { useState } from "react";
 import { useRouter } from "next/router";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@mui/styles";
 import {
   Container,
   Stepper,
@@ -17,8 +17,8 @@ import {
   Checkbox,
   FormGroup,
   Divider,
-} from "@material-ui/core";
-import Alert from "@material-ui/lab/Alert";
+  Alert
+} from "@mui/material";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Card from "/components/Card/Card.js";
