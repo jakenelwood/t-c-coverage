@@ -1,6 +1,6 @@
 # Cloudflare Pages configuration
 pages_build_output_dir = "out"
-build.command = "./cloudflare-build.sh"
+build.command = "bash fix-middleware.sh && npm run build"
 
 [env]
 NODE_VERSION = "18.12.0"
