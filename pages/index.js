@@ -1,5 +1,5 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import { styled } from "@mui/material/styles";
 import {
   Container,
   Grid,
@@ -8,61 +8,66 @@ import {
   TextField,
   Card,
   CardContent,
-} from "@material-ui/core";
+  Box,
+} from "@mui/material";
 import { useRouter } from "next/router";
+import Layout from '../components/Layout';
 
-const useStyles = makeStyles((theme) => ({
-  hero: {
-    position: "relative",
-    backgroundImage: "url('/tcc-images/hero-bg.jpg')",
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-    height: "100vh",
-    display: "flex",
-    alignItems: "center",
-    "&::before": {
-      content: '""',
-      position: "absolute",
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      backgroundColor: "rgba(0, 0, 0, 0.5)",
-    },
-  },
-  heroContent: {
-    position: "relative",
-    zIndex: 1,
-    color: "white",
-    textAlign: "center",
-  },
-  miniForm: {
-    backgroundColor: "white",
-    padding: theme.spacing(4),
-    borderRadius: theme.spacing(1),
-    marginTop: theme.spacing(4),
-  },
-  featureCard: {
-    height: "100%",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    textAlign: "center",
-    padding: theme.spacing(3),
-  },
-  carrierGrid: {
-    marginTop: theme.spacing(6),
-    marginBottom: theme.spacing(6),
-  },
-  carrierLogo: {
-    maxWidth: "100%",
-    height: "auto",
-    margin: theme.spacing(2),
+// Styled components
+const HeroSection = styled(Box)(({ theme }) => ({
+  position: "relative",
+  backgroundImage: "url('/tcc-images/hero-bg.jpg')",
+  backgroundSize: "cover",
+  backgroundPosition: "center",
+  height: "100vh",
+  display: "flex",
+  alignItems: "center",
+  "&::before": {
+    content: '""',
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
 }));
 
+const HeroContent = styled(Box)(({ theme }) => ({
+  position: "relative",
+  zIndex: 1,
+  color: "white",
+  textAlign: "center",
+}));
+
+const MiniForm = styled(Box)(({ theme }) => ({
+  backgroundColor: "white",
+  padding: theme.spacing(4),
+  borderRadius: theme.spacing(1),
+  marginTop: theme.spacing(4),
+}));
+
+const FeatureCard = styled(Card)(({ theme }) => ({
+  height: "100%",
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  textAlign: "center",
+  padding: theme.spacing(3),
+}));
+
+const CarrierGrid = styled(Box)(({ theme }) => ({
+  marginTop: theme.spacing(6),
+  marginBottom: theme.spacing(6),
+}));
+
+const CarrierLogo = styled('img')(({ theme }) => ({
+  maxWidth: "100%",
+  height: "auto",
+  margin: theme.spacing(2),
+}));
+
 export default function LandingPage() {
-  const classes = useStyles();
   const router = useRouter();
   const [formData, setFormData] = React.useState({
     firstName: "",
@@ -82,11 +87,11 @@ export default function LandingPage() {
   };
 
   return (
-    <>
+    <Layout>
       {/* Hero Section */}
-      <div className={classes.hero}>
+      <HeroSection>
         <Container>
-          <div className={classes.heroContent}>
+          <HeroContent>
             <Typography variant="h2" component="h1" gutterBottom>
               Personalized Coverage. Smarter Savings.
             </Typography>
@@ -95,7 +100,7 @@ export default function LandingPage() {
             </Typography>
 
             {/* Mini Form */}
-            <form onSubmit={handleSubmit} className={classes.miniForm}>
+            <MiniForm component="form" onSubmit={handleSubmit}>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>
                   <TextField
@@ -150,10 +155,10 @@ export default function LandingPage() {
                   </Button>
                 </Grid>
               </Grid>
-            </form>
-          </div>
+            </MiniForm>
+          </HeroContent>
         </Container>
-      </div>
+      </HeroSection>
 
       {/* Why Choose Us Section */}
       <Container>
@@ -162,7 +167,7 @@ export default function LandingPage() {
         </Typography>
         <Grid container spacing={4}>
           <Grid item xs={12} md={4}>
-            <Card className={classes.featureCard}>
+            <FeatureCard>
               <CardContent>
                 <Typography variant="h5" gutterBottom>
                   Save Time
@@ -171,10 +176,10 @@ export default function LandingPage() {
                   Get multiple quotes from trusted carriers in minutes, not hours.
                 </Typography>
               </CardContent>
-            </Card>
+            </FeatureCard>
           </Grid>
           <Grid item xs={12} md={4}>
-            <Card className={classes.featureCard}>
+            <FeatureCard>
               <CardContent>
                 <Typography variant="h5" gutterBottom>
                   Personalized Coverage
@@ -183,10 +188,10 @@ export default function LandingPage() {
                   Customized insurance solutions tailored to your specific needs.
                 </Typography>
               </CardContent>
-            </Card>
+            </FeatureCard>
           </Grid>
           <Grid item xs={12} md={4}>
-            <Card className={classes.featureCard}>
+            <FeatureCard>
               <CardContent>
                 <Typography variant="h5" gutterBottom>
                   Trusted Carriers
@@ -195,12 +200,12 @@ export default function LandingPage() {
                   Access to top-rated insurance providers in the industry.
                 </Typography>
               </CardContent>
-            </Card>
+            </FeatureCard>
           </Grid>
         </Grid>
 
         {/* Carrier Logos Section */}
-        <div className={classes.carrierGrid}>
+        <CarrierGrid>
           <Typography variant="h6" align="center" gutterBottom>
             Proudly Partnered With Trusted Carriers
           </Typography>
@@ -220,16 +225,15 @@ export default function LandingPage() {
               "Hartford",
             ].map((carrier) => (
               <Grid item xs={6} sm={4} md={3} key={carrier}>
-                <img
+                <CarrierLogo
                   src={`/carrier-logos/${carrier.toLowerCase().replace(/\s+/g, "-")}.png`}
                   alt={carrier}
-                  className={classes.carrierLogo}
                 />
               </Grid>
             ))}
           </Grid>
-        </div>
+        </CarrierGrid>
       </Container>
-    </>
+    </Layout>
   );
 }

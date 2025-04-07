@@ -1,42 +1,19 @@
-import React from "react";
-import Document, { Html, Head, Main, NextScript } from "next/document";
-import Script from "next/script";
-import { ServerStyleSheets } from "@mui/styles";
+import * as React from 'react';
+import Document, { Html, Head, Main, NextScript } from 'next/document';
+import { ServerStyleSheets } from '@mui/styles';
 
-class MyDocument extends Document {
+export default class MyDocument extends Document {
   render() {
     return (
       <Html lang="en">
         <Head>
-          <meta charSet="utf-8" />
-          <meta name="theme-color" content="#000000" />
-          <link rel="shortcut icon" href="/img/favicon.png" />
-          <link
-            rel="apple-touch-icon"
-            sizes="76x76"
-            href="/img/apple-icon.png"
-          />
-          {/* Fonts and icons */}
+          <link rel="shortcut icon" href="/favicon.ico" />
           <link
             rel="stylesheet"
-            type="text/css"
-            href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons"
+            href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
           />
-          <link
-            href="https://use.fontawesome.com/releases/v5.0.10/css/all.css"
-            rel="stylesheet"
-          />
-
-          {/* <!-- Nepcha Analytics (nepcha.com) -->
-          <!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. --> */}
-          <Script
-            defer
-            data-site="YOUR_DOMAIN_HERE"
-            src="https://api.nepcha.com/js/nepcha-analytics.js"
-          ></Script>
         </Head>
         <body>
-          <div id="page-transition"></div>
           <Main />
           <NextScript />
         </body>
@@ -45,6 +22,8 @@ class MyDocument extends Document {
   }
 }
 
+// `getInitialProps` belongs to `_document` (instead of `_app`),
+// it's compatible with server-side generation (SSG).
 MyDocument.getInitialProps = async (ctx) => {
   // Resolution order
   //
@@ -82,13 +61,6 @@ MyDocument.getInitialProps = async (ctx) => {
   return {
     ...initialProps,
     // Styles fragment is rendered after the app and page rendering finish.
-    styles: [
-      <React.Fragment key="styles">
-        {initialProps.styles}
-        {sheets.getStyleElement()}
-      </React.Fragment>,
-    ],
+    styles: [...React.Children.toArray(initialProps.styles), sheets.getStyleElement()],
   };
 };
-
-export default MyDocument;

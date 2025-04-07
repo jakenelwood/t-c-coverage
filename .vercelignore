@@ -1,0 +1,10 @@
+# Ignore Python API code
+/app
+/templates
+/output
+/data
+*.py
+requirements.txt
+Dockerfile
+deploy.sh
+docker-compose.yml 

@@ -87,8 +87,7 @@ export default class MyApp extends App {
             name="viewport"
             content="width=device-width, initial-scale=1, shrink-to-fit=no"
           />
-          <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE" />
-          <title>NextJS Material Kit by Creative Tim</title>
+          <title>Twin Cities Coverage - Personalized Insurance</title>
         </Head>
         <ThemeProvider theme={theme}>
           <StyledEngineProvider injectFirst>
