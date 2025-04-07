@@ -13,6 +13,20 @@ import { useFormikContext } from "formik";
 
 const PersonalInfoStep = () => {
   const { values, errors, touched, handleChange, handleBlur } = useFormikContext();
+  
+  // Initialize primaryInsured to avoid "Cannot read properties of undefined" error during static generation
+  const primaryInsured = values.primaryInsured || {
+    name: "",
+    email: "",
+    phone: "",
+    dob: "",
+    address: "",
+    mailingAddress: "",
+    ssn: "",
+    maritalStatus: "",
+    occupation: "",
+    priorAddress: ""
+  };
 
   return (
     <Grid container spacing={3}>
@@ -28,7 +42,7 @@ const PersonalInfoStep = () => {
           fullWidth
           label="Full Name"
           name="primaryInsured.name"
-          value={values.primaryInsured.name}
+          value={primaryInsured.name}
           onChange={handleChange}
           onBlur={handleBlur}
           error={touched.primaryInsured?.name && Boolean(errors.primaryInsured?.name)}
@@ -42,7 +56,7 @@ const PersonalInfoStep = () => {
           label="Email"
           name="primaryInsured.email"
           type="email"
-          value={values.primaryInsured.email}
+          value={primaryInsured.email}
           onChange={handleChange}
           onBlur={handleBlur}
           error={touched.primaryInsured?.email && Boolean(errors.primaryInsured?.email)}
@@ -55,7 +69,7 @@ const PersonalInfoStep = () => {
           fullWidth
           label="Phone Number"
           name="primaryInsured.phone"
-          value={values.primaryInsured.phone}
+          value={primaryInsured.phone}
           onChange={handleChange}
           onBlur={handleBlur}
           error={touched.primaryInsured?.phone && Boolean(errors.primaryInsured?.phone)}
@@ -70,7 +84,7 @@ const PersonalInfoStep = () => {
           name="primaryInsured.dob"
           type="date"
           InputLabelProps={{ shrink: true }}
-          value={values.primaryInsured.dob}
+          value={primaryInsured.dob}
           onChange={handleChange}
           onBlur={handleBlur}
           error={touched.primaryInsured?.dob && Boolean(errors.primaryInsured?.dob)}
@@ -83,7 +97,7 @@ const PersonalInfoStep = () => {
           fullWidth
           label="Address"
           name="primaryInsured.address"
-          value={values.primaryInsured.address}
+          value={primaryInsured.address}
           onChange={handleChange}
           onBlur={handleBlur}
           error={touched.primaryInsured?.address && Boolean(errors.primaryInsured?.address)}
@@ -96,7 +110,7 @@ const PersonalInfoStep = () => {
           fullWidth
           label="Mailing Address (if different)"
           name="primaryInsured.mailingAddress"
-          value={values.primaryInsured.mailingAddress}
+          value={primaryInsured.mailingAddress}
           onChange={handleChange}
           onBlur={handleBlur}
         />
@@ -107,7 +121,7 @@ const PersonalInfoStep = () => {
           fullWidth
           label="Social Security Number"
           name="primaryInsured.ssn"
-          value={values.primaryInsured.ssn}
+          value={primaryInsured.ssn}
           onChange={handleChange}
           onBlur={handleBlur}
           error={touched.primaryInsured?.ssn && Boolean(errors.primaryInsured?.ssn)}
@@ -120,7 +134,7 @@ const PersonalInfoStep = () => {
           <InputLabel>Marital Status</InputLabel>
           <Select
             name="primaryInsured.maritalStatus"
-            value={values.primaryInsured.maritalStatus}
+            value={primaryInsured.maritalStatus}
             onChange={handleChange}
             onBlur={handleBlur}
             error={touched.primaryInsured?.maritalStatus && Boolean(errors.primaryInsured?.maritalStatus)}
@@ -141,7 +155,7 @@ const PersonalInfoStep = () => {
           fullWidth
           label="Occupation"
           name="primaryInsured.occupation"
-          value={values.primaryInsured.occupation}
+          value={primaryInsured.occupation}
           onChange={handleChange}
           onBlur={handleBlur}
           error={touched.primaryInsured?.occupation && Boolean(errors.primaryInsured?.occupation)}
@@ -154,7 +168,7 @@ const PersonalInfoStep = () => {
           fullWidth
           label="Prior Address (if less than 3 years at current address)"
           name="primaryInsured.priorAddress"
-          value={values.primaryInsured.priorAddress}
+          value={primaryInsured.priorAddress}
           onChange={handleChange}
           onBlur={handleBlur}
         />

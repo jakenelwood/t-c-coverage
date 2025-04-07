@@ -28,17 +28,19 @@ const steps = [
 ];
 
 const initialValues = {
-  // Personal Information
-  fullName: "",
-  email: "",
-  phone: "",
-  address: "",
-  mailingAddress: "",
-  dateOfBirth: "",
-  ssn: "",
-  maritalStatus: "",
-  occupation: "",
-  priorAddress: "",
+  // Primary Insured
+  primaryInsured: {
+    name: "",
+    email: "",
+    phone: "",
+    dob: "",
+    address: "",
+    mailingAddress: "",
+    ssn: "",
+    maritalStatus: "",
+    occupation: "",
+    priorAddress: ""
+  },
   
   // Quote Types
   quoteTypes: [],
