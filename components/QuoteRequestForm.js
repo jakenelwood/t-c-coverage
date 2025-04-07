@@ -12,11 +12,11 @@ import {
 } from "@mui/material";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
-import PersonalInfoStep from "./steps/PersonalInfoStep";
-import AutoInfoStep from "./steps/AutoInfoStep";
-import HomeInfoStep from "./steps/HomeInfoStep";
-import SpecialtyInfoStep from "./steps/SpecialtyInfoStep";
-import ReviewStep from "./steps/ReviewStep";
+import PersonalInfoStep from "./form-steps/PersonalInfoStep";
+import AutoInfoStep from "./form-steps/AutoInfoStep";
+import HomeInfoStep from "./form-steps/HomeInfoStep";
+import SpecialtyInfoStep from "./form-steps/SpecialtyInfoStep";
+import ReviewStep from "./form-steps/ReviewStep";
 import { fetchAPI } from "../utils/api";
 
 const steps = [
