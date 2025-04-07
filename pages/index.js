@@ -16,7 +16,7 @@ import Layout from '../components/Layout';
 // Styled components
 const HeroSection = styled(Box)(({ theme }) => ({
   position: "relative",
-  backgroundImage: "url('/tcc-images/hero-bg.jpg')",
+  backgroundImage: "url('/tcc-images/landing-page-image.jpg')",
   backgroundSize: "cover",
   backgroundPosition: "center",
   height: "100vh",
@@ -84,6 +84,22 @@ export default function LandingPage() {
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  // Carrier logo mapping - updated with actual file names and extensions
+  const carrierLogos = {
+    "AAA": "Carrier-AAA.webp",
+    "American Collectors": "Carrier-American-Collectors-1.webp",
+    "Auto-Owners": "Carrier-Auto-Owners-Insurance-1.webp",
+    "Dairyland": "Carrier-Dairyland-1.webp",
+    "Foremost": "Carrier-Foremost-3.png",
+    "National General": "Carrier-National-General-1.png",
+    "Nationwide": "Carrier-Nationwide-1.webp",
+    "Progressive": "Carrier-Progressive-5.webp",
+    "Safeco": "Carrier-Safeco-Insurance-2.webp",
+    "Travelers": "Carrier-Travelers-2.webp",
+    "West Bend": "Carrier-West-Bend-1.webp",
+    "Hartford": "hartford.jpeg"
   };
 
   return (
@@ -210,23 +226,10 @@ export default function LandingPage() {
             Proudly Partnered With Trusted Carriers
           </Typography>
           <Grid container spacing={2} justifyContent="center">
-            {[
-              "AAA",
-              "American Collectors",
-              "Auto-Owners",
-              "Dairyland",
-              "Foremost",
-              "National General",
-              "Nationwide",
-              "Progressive",
-              "Safeco",
-              "Travelers",
-              "West Bend",
-              "Hartford",
-            ].map((carrier) => (
+            {Object.keys(carrierLogos).map((carrier) => (
               <Grid item xs={6} sm={4} md={3} key={carrier}>
                 <CarrierLogo
-                  src={`/carrier-logos/${carrier.toLowerCase().replace(/\s+/g, "-")}.png`}
+                  src={`/carrier-logos/${carrierLogos[carrier]}`}
                   alt={carrier}
                 />
               </Grid>

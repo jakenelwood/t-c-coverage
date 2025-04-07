@@ -11,8 +11,12 @@ import {
   Button,
   Typography,
   Box,
+  Paper,
+  Avatar,
+  Alert,
 } from "@material-ui/core";
-import Alert from "@material-ui/lab/Alert";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import Layout from '../components/Layout';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -41,71 +45,75 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Login() {
+export default function LoginPage() {
   const classes = useStyles();
   const router = useRouter();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+  });
+  const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
+    setError('');
     setLoading(true);
 
     try {
-      const response = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || "Login failed");
+      // Mock login - in real implementation, this would be an API call
+      if (formData.email && formData.password) {
+        // Placeholder for API call
+        console.log('Login attempt:', formData.email);
+        
+        // For demo purposes
+        setLoading(false);
+        setError('Login functionality will be connected to API endpoint');
+      } else {
+        setLoading(false);
+        setError('Please enter both email and password');
       }
-
-      // Store the JWT token
-      localStorage.setItem("token", data.token);
-      
-      // Redirect to agent portal
-      router.push("/agent-portal");
     } catch (err) {
-      setError(err.message);
-    } finally {
       setLoading(false);
+      setError('Login failed. Please check your credentials.');
+      console.error(err);
     }
   };
 
   return (
-    <div className={classes.root}>
-      <Container component="main" maxWidth="xs">
-        <Card className={classes.card}>
-          <CardContent>
-            <Box textAlign="center" mb={4}>
-              <img
-                src="/images/tcc-logo.png"
-                alt="Twin Cities Coverage"
-                className={classes.logo}
-              />
-              <Typography component="h1" variant="h5">
-                Agent Login
-              </Typography>
-            </Box>
-
+    <Layout>
+      <Container maxWidth="xs" sx={{ my: 8 }}>
+        <Paper elevation={3} sx={{ p: 4 }}>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}
+          >
+            <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
+              <LockOutlinedIcon />
+            </Avatar>
+            
+            <Typography component="h1" variant="h5" gutterBottom>
+              Agent Login
+            </Typography>
+            
             {error && (
-              <Alert severity="error" style={{ marginBottom: "1rem" }}>
+              <Alert severity="error" sx={{ width: '100%', mb: 2 }}>
                 {error}
               </Alert>
             )}
-
-            <form className={classes.form} onSubmit={handleSubmit}>
+            
+            <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1, width: '100%' }}>
               <TextField
-                variant="outlined"
                 margin="normal"
                 required
                 fullWidth
@@ -114,11 +122,11 @@ export default function Login() {
                 name="email"
                 autoComplete="email"
                 autoFocus
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                value={formData.email}
+                onChange={handleChange}
               />
+              
               <TextField
-                variant="outlined"
                 margin="normal"
                 required
                 fullWidth
@@ -127,23 +135,27 @@ export default function Login() {
                 type="password"
                 id="password"
                 autoComplete="current-password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                value={formData.password}
+                onChange={handleChange}
               />
+              
               <Button
                 type="submit"
                 fullWidth
                 variant="contained"
-                color="primary"
-                className={classes.submit}
+                sx={{ mt: 3, mb: 2 }}
                 disabled={loading}
               >
                 {loading ? "Signing in..." : "Sign In"}
               </Button>
-            </form>
-          </CardContent>
-        </Card>
+              
+              <Typography variant="body2" color="text.secondary" align="center">
+                This portal is for authorized agents only.
+              </Typography>
+            </Box>
+          </Box>
+        </Paper>
       </Container>
-    </div>
+    </Layout>
   );
 }
