@@ -1,6 +1,6 @@
 # Cloudflare Pages configuration
 pages_build_output_dir = "out"
-build.command = "node empty-middleware-api-dir.js && bash fix-middleware.sh && SKIP_MIDDLEWARE_CHECK=1 npm run build"
+build.command = "node middleware-fix.js && SKIP_MIDDLEWARE_CHECK=1 npm run build"
 
 [env]
 NODE_VERSION = "18.12.0"
