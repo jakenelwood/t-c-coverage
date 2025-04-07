@@ -14,7 +14,7 @@ import {
   Paper,
   Avatar,
   Alert,
-} from "@material-ui/core";
+} from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Layout from '../components/Layout';
 
