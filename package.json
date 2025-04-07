@@ -41,7 +41,8 @@
     "minify-sass": "sass styles/scss/nextjs-material-kit-pro.scss styles/css/nextjs-material-kit-pro.min.css --style compressed"
   },
   "devDependencies": {
-    "wrangler": "^3.19.0"
+    "wrangler": "^3.19.0",
+    "@cloudflare/next-on-pages": "^1.6.3"
   },
   "browserslist": {
     "production": [

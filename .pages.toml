@@ -1,6 +1,6 @@
 # Cloudflare Pages configuration
-pages_build_output_dir = ".next"
-build.command = "bash _build.sh"
+pages_build_output_dir = ".vercel/output/static"
+build.command = "npx @cloudflare/next-on-pages@1"
 
 [build.environment]
 NODE_VERSION = "18.12.0"

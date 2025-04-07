@@ -1,7 +1,7 @@
 {
   "build": {
-    "command": "bash _build.sh",
-    "output_directory": ".next",
+    "command": "npx @cloudflare/next-on-pages@1",
+    "output_directory": ".vercel/output/static",
     "root_directory": "/"
   },
   "routes": [
