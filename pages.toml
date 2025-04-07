@@ -1,0 +1,53 @@
+# Cloudflare Pages configuration
+pages_build_output_dir = ".vercel/output/static"
+
+# Custom build command that first cleans up nested middleware files
+[build]
+command = """
+echo "Removing nested middleware files..."
+rm -rf pages/api/_middleware.js
+mkdir -p pages/api
+
+echo "Creating root middleware file..."
+cat > middleware.js << 'EOF'
+import { NextResponse } from 'next/server';
+
+export function middleware(request) {
+  const url = new URL(request.url);
+  
+  // Handle API routes - redirect to external API server
+  if (url.pathname.startsWith('/api/')) {
+    const apiUrl = new URL(url.pathname, process.env.NEXT_PUBLIC_API_URL || 'https://api.twincitiescoverage.com');
+    return NextResponse.redirect(apiUrl);
+  }
+  
+  // Protect agent portal routes - must be authenticated
+  if (url.pathname.startsWith('/agent-portal')) {
+    // Check for auth token
+    const token = request.cookies.get('auth-token');
+    
+    if (!token) {
+      return NextResponse.redirect(new URL('/login', request.url));
+    }
+  }
+  
+  return NextResponse.next();
+}
+
+export const config = {
+  matcher: [
+    '/api/:path*',
+    '/agent-portal/:path*'
+  ],
+};
+EOF
+
+echo "Running Cloudflare Next.js build..."
+npx @cloudflare/next-on-pages@1
+"""
+
+[build.environment]
+NODE_VERSION = "18.12.0"
+
+[environment_variables]
+NEXT_PUBLIC_API_URL = "https://api.twincitiescoverage.com" 

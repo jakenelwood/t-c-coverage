@@ -1,0 +1,11 @@
+This file exists to signal to Cloudflare Pages that we're aware of the nested middleware issue
+and are taking steps to fix it. The build process should:
+
+1. Delete any nested middleware files (pages/api/_middleware.js)
+2. Create a root middleware.js file
+3. Run the Next.js build with Cloudflare adapter
+
+Our cloudflare-build.sh script handles all these steps.
+
+It's important that Cloudflare's build process uses this approach rather than 
+attempting to build with the existing files in the repository. 
